@@ -1,7 +1,9 @@
 // Write your JavaScript code here!
 window.addEventListener("load", function (){
    let form = document.querySelector("form");
+
    form.addEventListener("submit", function(event) {
+      event.preventDefault();
       let pilotName = document.querySelector("input[name=pilotName]");
       let copilotName = document.querySelector("input[name=copilotName]");
       let fuelLevel = document.querySelector("input[name=fuelLevel]");
@@ -14,18 +16,18 @@ window.addEventListener("load", function (){
 
          event.preventDefault();
       
-      }
+      } else {
       if (isNaN(cargoMass.value) || isNaN(fuelLevel.value)) {
          alert ("Please provide a ## for Cargo Mass and Fuel Level");
 
          event.preventDefault();
-      };
+      }
 
       if (!isNaN(pilotName.value) || !isNaN(copilotName.value)) {
             alert ("Please provide text for Pilot and Co-Pilot names");
 
          event.preventDefault();
-      };
+      }
 
 
       let launchStatus = document.getElementById('launchStatus')
@@ -35,49 +37,48 @@ window.addEventListener("load", function (){
       let fuelStatus = document.getElementById('fuelStatus')
       let cargoStatus = document.getElementById('cargoStatus')
       
+      
       if (fuelLevel.value === 890) {
          launchStatus.innerHTML = "Shuttle not ready for launch"
          launchStatus.style.color = 'red';
       
          event.preventDefault();
-      };
+      }
       
       if (cargoMass.value === 0) {
          launchStatus.innerHTML = "All fields required"
          launchStatus.style.color = 'red';
       
          event.preventDefault();
-      };
+      }
 
 
-      function lowLevels () {
-         faultyItems.style.visibility = 'visible';
+
+      if (fuelLevel.value > 10000 && cargoMass.value < 10000) {
+         faultyItems.style.visibility = 'hidden'
+         launchStatus.innerHTML = "Shuttle is ready for launch";
+         cargoStatus.innerHTML = "There is enough mass for the shuttle to take off.";
+         fuelStatus.innerHTML = "There is enough fuel for the journey."
+         launchStatus.style.color = 'green';
+      }
       if (fuelLevel.value < 10000) {
+         faultyItems.style.visibility = 'visible';
          fuelStatus.innerHTML = "There is not enough fuel for the journey."
          launchStatus.innerHTML = "Shuttle not ready for launch"
          launchStatus.style.color = 'red';
                               } 
-      else {  launchStatus.innerHTML = "Shuttle is ready for launch";
-            launchStatus.style.color = 'green';
-            } 
-         }
-      
-      lowLevels();
-
-
-      function highLevels () {   
-         if (cargoStatus > 10000) {
-            faultyItems.getElementById().visibility = "visible";
+    
+         
+ 
+         if (cargoMass.value > 10000) {
+            faultyItems.visibility = "visible";
             cargoStatus.innerHTML = "There is too much mass for the shuttle to take off.";
-            launchStatus.getElementById().innerHTML = "Shuttle not ready for launch"
-            launchStatus.getElementById().style.color = 'red';
+            launchStatus.innerHTML = "Shuttle not ready for launch"
+            launchStatus.style.color = 'red';
                                  }
-         else {launchStatus.innerHTML= "Shuttle is ready for launch";
-               launchStatus.style.color = 'green';
-               }
-            }
-         highLevels();
-   })
+
+   }
+})
 
    fetch("https://handlers.education.launchcode.org/static/planets.json").then(function(response) {
       response.json().then( function(json) {
